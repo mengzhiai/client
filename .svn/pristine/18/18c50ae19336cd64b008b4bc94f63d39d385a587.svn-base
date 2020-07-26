@@ -1,0 +1,25 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-11-22 09:16:52
+ * @LastEditTime: 2019-11-22 14:26:05
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \client-system\public\index.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>企兴知识产权</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but client-system doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

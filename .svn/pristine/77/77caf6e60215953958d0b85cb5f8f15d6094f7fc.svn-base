@@ -1,0 +1,4 @@
+NODE_ENV=prod
+VUE_APP_BASE_URL="http://xxx.xxx.xxx"
+VUE_APP_BASE_API="http://xxx.xxx.xxx:port"
+VUE_APP_DIR_NAME="xxx"

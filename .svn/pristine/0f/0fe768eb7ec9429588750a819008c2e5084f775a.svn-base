@@ -1,0 +1,580 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-11-25 09:21:29
+ * @LastEditTime: 2019-11-25 17:08:23
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \client-system\src\views\conformSheet\affirm.vue
+ -->
+<template>
+<div>
+  <el-dialog title="" :visible.sync="affirmDialog" width="1200px" @close="closeDialog" top="50px">
+    <div class="affirmForm qx-fixed">
+      <div class="title">专利新申请确认单</div>
+      <div class="box first">
+        <div class="box-title">
+          <div>一、(甲方)：<span class="underline">{{affirmForm.clientName}}</span></div>
+        </div>
+        <div class="box-table">
+          <table>
+            <tr>
+              <td class="lab" width="100">机构代码</td>
+              <td colspan="2" class="txt">{{affirmForm.code}}</td>
+              <td class="lab" width="100">电话</td>
+              <td class="txt">{{affirmForm.tel}}</td>
+              <td class="lab" width="100">邮编</td>
+              <td class="txt">{{affirmForm.postcode}}</td>
+            </tr>
+            <tr>
+              <td class="lab">注册地址</td>
+              <td colspan="6" class="txt">{{affirmForm.address}}</td>
+            </tr>
+            <tr>
+              <td rowspan="2" class="lab">联系人</td>
+              <td class="lab" width="100">姓名</td>
+              <td class="txt" width="300">
+                <div class="qx-flexBetween">
+                  <div>
+                    <el-select v-model="affirmForm.name" size="small" placeholder="">
+                      <el-option v-for="(item,i) in nameList" :key="i" :label="item.label" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </div>
+                  <div>
+                    <el-button type="primary" size="small" @click="newCreate">新建</el-button>
+                  </div>
+                </div>
+              </td>
+              <td class="lab">电话</td>
+              <td class="txt">
+                <el-input v-model="affirmForm.phone" size="small"></el-input>
+              </td>
+              <td class="lab">邮箱</td>
+              <td class="txt">
+                <el-input v-model="affirmForm.email" size="small" class="aaaa" :class="emailInput"></el-input>
+              </td>
+            </tr>
+            <tr>
+              <td class="lab">通信地址</td>
+              <td colspan="3" class="txt">
+                <el-input v-model="affirmForm.phoneAddress" size="small"></el-input>
+              </td>
+              <td class="lab">邮编</td>
+              <td class="txt">
+                <el-input v-model="affirmForm.postCode" size="small"></el-input>
+              </td>
+            </tr>
+          </table>
+          <div class="explain">注：甲方指定上述人员作为专利事项的指定联系人。
+            无论在本代理事项期间还是结束以后，乙方所有的有关该专利的通知、 转达、
+            提醒等事项均发送到甲方指定联系人。如甲方“指定联系人”未及时查阅Email、
+            或“指定联系人”信息发生变化时 甲方未 及时以邮件形式发送至乙方“kehuguanli@ipsvc.cn”邮箱通知乙方变更信息的，
+            所造成的损失由甲方承担，乙方不承担责任。
+          </div>
+        </div>
+      </div>
+      <div class="box second">
+        <div class="box-title">
+          <div>二、(乙方)：<span class="underline">{{affirmForm.companyName}}</span></div>
+        </div>
+        <el-row>
+          <el-col :span="7">户名:<span class="underline">{{affirmForm.accountName}}</span></el-col>
+          <el-col :span="7">开户行:<span class="underline">{{affirmForm.openBank }}</span></el-col>
+          <el-col :span="4">账号:<span class="underline">{{affirmForm.accountNumber}}</span></el-col>
+          <el-col :span="6">国家专利代理机构代码:<span class="underline">{{affirmForm.nstitutionCode}}</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="7">知识产权顾问:<span class="underline">{{affirmForm.counselor}}</span></el-col>
+          <el-col :span="7">联系电话:<span class="underline">{{affirmForm.connectTel}}</span></el-col>
+          <el-col :span="9">邮箱:<span class="underline">{{affirmForm.connectEmail}}</span></el-col>
+        </el-row>
+      </div>
+      <div class="box third">
+        <div class="box-title">三、服务事项明细</div>
+        <el-row class="hint">
+          <el-col :span="12">委托专利申请事项及费用甲乙双方确认如下：</el-col>
+          <el-col :span="12" class="qx-alignRight">2019 年 第 1 批</el-col>
+        </el-row>
+        <table>
+          <tr>
+            <td rowspan="3" class="lab">第一申请人</td>
+            <td class="lab">名称</td>
+            <td class="txt" colspan="1">天津必利优科技发展有限公司</td>
+            <td class="lab">费减编号</td>
+            <td class="txt" colspan="3">无</td>
+          </tr>
+          <tr>
+            <td class="lab">机构代码</td>
+            <td class="txt">321321321312</td>
+            <td class="lab">电话</td>
+            <td class="txt">1578477888</td>
+            <td class="lab">传真</td>
+            <td class="txt">022-787878</td>
+          </tr>
+          <tr>
+            <td class="lab">注册地址</td>
+            <td colspan="5" class="txt">天津滨海高新区塘沽海洋科技园新北路4668号创新创业园18-A号</td>
+          </tr>
+        </table>
+        <table class="service" :data="serviceTable">
+          <tr>
+            <th>序号</th>
+            <th>提案编号-发明创造名称<br>-案件撰写人-案件审核人</th>
+            <th>申请类型</th>
+            <th>服务费</th>
+            <th>申请官费<br>项目及费用</th>
+            <th>申请官费<br>项目及费用</th>
+            <th>特殊约定代码</th>
+            <th>第一发明人</th>
+            <th>身份证号</th>
+            <th>其他发明人</th>
+            <th>申请人</th>
+          </tr>
+          <tr v-for="(item,i) in serviceTable" :key="i">
+            <td>{{item.test}}</td>
+            <td>{{item.test}}</td>
+            <td>{{item.test}}</td>
+            <td>{{item.test}}</td>
+            <td>{{item.test}}</td>
+            <td>{{item.test}}</td>
+            <td>{{item.test}}</td>
+            <td>
+              <el-link type="primary" :underline="false">{{item.test}}</el-link>
+            </td>
+            <td>
+              <el-input v-model="item.test" size="mini"></el-input>
+            </td>
+            <td>
+              <el-input v-model="item.test" size="mini"></el-input>
+            </td>
+            <td>
+              <el-input v-model="item.test" size="mini"></el-input>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="11" class="lab">以上项目共计5件，其中服务费共18,000元，官费共8,915元，合计费用26,915元。</td>
+          </tr>
+          <tr>
+            <td class="lab">备注</td>
+            <td colspan="10" class="list">
+              <div>1、发明申请如不交“实质审查费”，则至距申请日满3年后会被视为撤回，责任由委托方自行承担。</div>
+              <div class="td-list">2、“特殊约定代码”注释：
+                <p>●不填写或写“无”：代表一般服务，请求即服务至该申请收到【办理登记手续通知书】，或因技术方案自身缺陷或发明申请因甲方原因未及时缴纳实审费而收到被视为撤回或被驳回为止；</p>
+                <p>●ST：代表拿到【专利申请受理通知书】，并代收代交“申请官费”后，该代理服务即告完成；</p>
+                <p>●BG：代表该“发明”申请不要求提“提前公开请求”；提示：此要求会延长审查进程；</p>
+                <p>●YX：代表该发明创造申请时要求优先权，需同时在特殊约定代码一栏填写在先专利申请号；</p>
+                <p>●FA：代表该发明创造申请时要求分案申请，需同时在特殊约定代码一栏填写原专利申请号；</p>
+                <p>●YS：代表该发明创造申请前先提交至中国（滨海新区）知识产权保护中心（以下简称保护中心）进行预审查，请确保第一申请人已通过保护中心申请主体备案，申请人需严格遵守保护中心下发的《专利申请需知》，同时提交盖章版《承诺书》;</p>
+              </div>
+              <div>3、专利申请过程中乙方接收到的补正通知书或审查意见通知书需及时转达给甲方，待甲方提供答复文件后乙方需及时交局；甲方如需乙方代为撰写答复意见的，需另行约定代理事项。</div>
+              <div>4、双申请说明：S1:双申发明。S2:双申实用新型。</div>
+            </td>
+          </tr>
+        </table>
+        <div class="pay-date">
+          <div class="item">1、付款期限：</div>
+          <div class="item">按件结算。专利代理服务协议签订后， 甲方应在合同生效之日起的 3 个工作日内向乙方支付专利代理服务的全部费用。所有费用以实际发生计，多退少补。</div>
+          <div class="item">甲方逾付款的，应以代理费总额为基数按日千分之一的金额，向乙方支付违约金。</div>
+          <div class="item">2、专利各阶段如需乙方代为办理费用减免手续的，则甲方应提供给乙方所需材料原件，并先行支付给乙方50元/件次的代理服务费。</div>
+          <div class="item">3、办理授权登记费用及授权后每年的年费，由甲方自行交纳，如因甲方未缴纳或缴纳过期所导致该专利权视为放弃或权利终止，责任由甲方自负。</div>
+          <div class="item">4、如需乙方代收代缴办理授权登记费用，则甲方应书面通知乙方所需缴费项目和申请号，并先行支付给乙方所需办理授权登记费用和 100元/件次的代缴服务费。</div>
+          <div class="item">5、如需乙方提供年费缴纳的监控提醒服务，则甲方应支付给乙方每年20元/件的监控服务费；如需乙方代收代缴授权后的年费，则甲方应书面通知乙方所需缴费项目和申请号，并先行支付给乙方所需年费费用和 50元/件次的代缴服务费。</div>
+          <div class="item">6、为避免运输途中遗失，专利申请、审查、复审或维持等各阶段相关的纸质文件、票据及专利证书，甲方应至乙方处签收领取，如甲方要求快递至甲方，快递中所发生的遗失，责任由甲方自负。</div>
+          <div class="item">7、乙方对委托方提供的信息资料自收到日起至该专利申请由国家知识产权局公开或公告为止应当保密</div>
+          <div class="item">8、合同生效后，任何一方擅自提前终止协议的，应按照双方确认的代理费的百分之三十向对方支付违约金。</div>
+          <div class="item">9、本协议自双方签字或者盖章之日起生效，一式两份，双方各执一份。</div>
+        </div>
+      </div>
+      <div class="box four">
+        <div class="box-title">
+          <div>四、票据信息甲方指示如下：</div>
+        </div>
+        <table>
+          <tr>
+            <td rowspan="4" class="lab" width="60">发<br>票<br>信<br>息</td>
+            <td width="260">发票抬头</td>
+            <td class="txt">
+              <div>
+                <el-select v-model="affirmForm.ticket" size="small" placeholder="">
+                  <el-option v-for="(item,i) in ticketList" :key="i" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>纳税人识别号</td>
+            <td class="txt">
+              <div>
+                <el-input v-model="affirmForm.num" size="small" placeholder="请输入纳税人识别号"></el-input>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>注册地址&电话</td>
+            <td class="txt">
+              <div>
+                <el-input v-model="affirmForm.address" size="small" placeholder="请输入注册地址电话"></el-input>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>开户银行&银行账号</td>
+            <td class="txt">
+              <div>
+                <el-input v-model="affirmForm.tel" size="small" placeholder="请输入开户银行/银行卡账号"></el-input>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">官费收据抬头</td>
+            <td class="txt">
+              <div>
+                <el-select v-model="affirmForm.ticket" size="small" placeholder="请选择">
+                  <el-option v-for="(item,i) in costList" :key="i" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="box five">
+        <div class="box-title">五、委托方确认声明：委托方已确认上述信息无误，并且已对申请文件确认，同意受托方递交上述申请，并在本确认单提交乙方后三日 内，将上述费用支付给乙方。</div>
+        <table>
+          <tr>
+            <td>
+              <div class="stamp">委托方盖章:</div>
+              <div class="sign">指定联系人签字：</div>
+              <div class="date">日期: <span>年</span><span>月</span><span>日</span></div>
+            </td>
+            <td class="right-txt">委托方签章确认后，请将该确认单原件寄回</td>
+          </tr>
+        </table>
+      </div>
+      <div class="box six">
+        <div class="box-title">六、备注</div>
+        <div class="remark">
+          <el-input type="textarea" v-model="affirmForm.remark" :rows="5" placeholder="请输入备注内容"></el-input>
+        </div>
+      </div>
+      <div class="box qx-alignRight qx-btnFixed">
+        <el-button type="primary" size="small" @click="saveAllData">保存</el-button>
+        <el-button type="success" size="small">确认</el-button>
+        <el-button type="danger" plain size="small">驳回</el-button>
+
+      </div>
+    </div>
+  </el-dialog>
+  <el-dialog title="新建联系人" :visible.sync="connectDialog" width="1000px" @click="closeConnectDialog">
+    <el-form :model="newConnectForm" ref="newConnectForm" :rules="newRules" size="medium" label-width="120px">
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="姓名:" prop="name">
+            <el-input v-model="newConnectForm.name" placeholder="请输入姓名"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="电话:" prop="tel">
+            <el-input v-model="newConnectForm.tel" placeholder="请输入电话"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="Email:" prop="email">
+            <el-input v-model="newConnectForm.emali" placeholder="请输入邮箱"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="邮编:" prop="postcode">
+            <el-input v-model="newConnectForm.postcode" placeholder="请输入邮编"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16">
+          <el-form-item label="通信地址:" prop="address">
+            <el-input v-model="newConnectForm.address" placeholder="请输入通信地址"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24" class="qx-alignRight">
+          <el-form-item>
+            <el-button type="primary" size="small" @click="submitConnect('newConnectForm')">提交</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+
+  </el-dialog>
+
+</div>
+</template>
+
+<script>
+import {verifyEmail,verifyPostcode} from '../../utils/rules'
+export default {
+  props: ["componentData"],
+  data() {
+    return {
+      affirmDialog: false,
+      affirmForm: {
+        clientName: '天津必利优科技发展有限公司',
+        code: '232131231312',
+        tel: '010-11111111111',
+        postcode: '311350',
+        address: '天津市西青区',
+        name: '某某某',
+        phone: '110',
+        email: 'fdafdsa@qq.com',
+        phoneAddress: '华苑',
+
+        companyName: '企兴知识产权',
+        accountName: '天津滨海科纬知识产权代理有限公司',
+        openBank: '天津银行',
+        accountNumber: '111',
+        nstitutionCode: '1231312321321',
+        counselor: '张海',
+        connectTel: '15879751445',
+        connectEmail: 'fdsafds@qq.com'
+      },
+      serviceTable: [{
+          test: '123'
+        },
+        {
+          test: '1111'
+        },
+        {
+          test: '2222'
+        }
+      ],
+      nameList: [{
+        label: '某某某',
+        value: "某某某"
+      }],
+      ticketList: [{
+        label: '某某某',
+        value: "某某某"
+      }],
+      costList: [{
+        label: '某某某',
+        value: "某某某"
+      }],
+      //新建联系人
+      connectDialog: false,
+      newConnectForm: {
+
+      },
+      newRules: {
+        name: [{
+          required: true,
+          message: '请输入姓名',
+          tragger: 'blur'
+        }],
+        tel: [{
+          required: true,
+          message: '请输入电话',
+          tragger: 'blur'
+        }],
+        email: [{
+          required: true,
+          message: '请输入邮箱',
+          tragger: 'blur'
+        }],
+        postcode: [{
+          required: true,
+          message: '请输入邮编',
+          tragger: 'blur'
+        }],
+        address: [{
+          required: true,
+          message: '请输入地址',
+          tragger: 'blur'
+        }],
+      },
+      emailInput: ''
+    }
+  },
+  watch: {
+    componentData(val) {
+      console.log(val);
+      this.openDialog(val);
+    }
+  },
+  methods: {
+    openDialog(data) {
+      this.affirmDialog = true;
+    },
+    newCreate() {
+      this.connectDialog = true;
+    },
+    //添加联系人
+    submitConnect(newConnectForm) {
+      // this.connectDialog = false;
+      this.$refs[newConnectForm].validate((valid) => {
+        if (valid) {
+          this.connectDialog = false;
+        } else {
+          this.$message.warning('请将必填项填写完整')
+        }
+      })
+
+    },
+    //点击保存
+    saveAllData(){
+      // this.verifyData();
+      verifyEmail(this.affirmForm.email);
+      verifyPostcode(this.affirmForm.postcode)
+    },
+    closeConnectDialog() {
+      this.$refs.newConnectForm.resetFields();
+    },
+    closeDialog() {}
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.affirmForm {
+  color: #625C65;
+
+  .title {
+    color: #625C65;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .box {
+    margin-bottom: 25px;
+  }
+
+  .first {
+    .qx-flexBetween {
+      line-height: normal;
+    }
+  }
+
+  .box-title {
+    display: flex;
+    justify-content: space-between;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    // border: 1px solid #DCDFE6;
+    td {
+      border: 1px solid #DCDFE6;
+      height: 35px;
+      line-height: 35px;
+      padding: 2px 8px;
+    }
+
+    .lab {
+      text-align: center;
+    }
+
+    .txt {
+      background-color: #F7F7F7;
+    }
+  }
+
+  .explain {
+    line-height: 20px;
+    margin: 10px 0;
+    font-size: 12px;
+  }
+
+  .second {
+    .el-row {
+      margin-bottom: 10px;
+    }
+  }
+
+  .third {
+    .hint {
+      line-height: 30px;
+    }
+
+    table {
+
+      // table-layout: fixed;
+      .lab {
+        width: 110px;
+      }
+    }
+
+    .service {
+      margin-top: 10px;
+      font-size: 14px;
+
+      th {
+        border: 1px solid #DCDFE6;
+        padding: 0 8px;
+        height: 40px;
+        background-color: #F7F7F7;
+      }
+
+      .el-input {
+        width: 80px;
+      }
+
+      .list {
+        line-height: 30px;
+        font-size: 12px;
+      }
+
+      .td-list {
+        p {
+          padding-left: 20px;
+        }
+      }
+    }
+
+    .pay-date {
+      line-height: 30px;
+      font-size: 12px;
+    }
+  }
+
+  .five {
+    .stamp {
+      margin-bottom: 60px;
+    }
+
+    .date {
+      span {
+        margin-left: 60px;
+      }
+    }
+
+    .right-txt {
+      vertical-align: top;
+    }
+  }
+}
+
+.qx-fixed {
+  height: 80vh;
+  overflow: auto;
+  padding: 0 10px 20px;
+  position: relative;
+
+  .qx-btnFixed {
+    position: fixed;
+    left: 0;
+    right: 80px;
+    bottom: 80px;
+    text-align: right;
+    width: 1200px;
+    margin: 0 auto;
+  }
+}
+</style>

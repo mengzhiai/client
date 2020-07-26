@@ -1,0 +1,32 @@
+/*
+ * @Author: your name
+ * @Date: 2020-04-07 15:21:19
+ * @LastEditTime: 2020-04-07 15:35:48
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \custom_html\src\api\demo.js
+ */
+/* 
+这个是请求demo页面,下面两项必须引入
+*/
+
+//引入封装的http
+import http from '../utils/http.js'
+
+/* 
+模块名称
+/api 是跨域代理,一定要加上,请求时会值为空,详情请看vue.config.js文件
+*/
+const moduleDemo = '/api/sysDemo';
+
+//导出所有模块
+export default {
+  //get请求
+  getDemo(data) {
+    return http.get(`${moduleDemo}/demoList.do`, data)
+  },
+  //post请求
+  postDemo(data) {
+    return http.post(`${moduleDemo}/postData.do`, data);
+  }
+}

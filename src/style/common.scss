@@ -1,0 +1,217 @@
+@charset "UTF-8";
+
+ul li {
+  list-style: none;
+}
+
+ul {
+  padding: 0 !important;
+}
+
+a {
+  color: #444;
+  text-decoration: none;
+}
+
+html,
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+  font-family: "Microsoft Yahei", "微软雅黑", arial, "\5b8b\4f53";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  font-size: 14px;
+  position: relative;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+//伪类清除浮动
+.clearfix:after {
+  clear: both;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #676171;
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: #676171;
+}
+
+$themeColor: #018EED;
+$fontColor: #DCDFE6;
+$maxbox: 1200px;
+
+body {
+  color: $fontColor;
+  width: 100%;
+  height: 100vh;
+  background-color: #EFF0F5;
+}
+
+.qx-maxbox {
+  width: $maxbox;
+  margin: 0 auto;
+}
+
+.qx-alignCenter {
+  text-align: center;
+}
+
+.qx-alignRight {
+  text-align: right;
+}
+
+.qx-flex {
+  display: flex;
+}
+
+.qx-flexCenter {
+  display: flex;
+  justify-content: center;
+}
+
+.qx-flexRight {
+  display: flex;
+  justify-content: right;
+}
+
+.qx-flexBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.login-input {
+  input {
+    padding-left: 30px;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-radius: 0;
+  }
+}
+
+
+
+/* 公用标题 */
+.qx-title {
+  display: flex;
+  padding: 20px 20px 10px;
+
+  .bg {
+    width: 2px;
+    height: 24px;
+    background-color: #018EED;
+  }
+
+  .font {
+    color: #333;
+    font-size: 18px;
+    margin-left: 10px;
+  }
+}
+.container {
+  margin: 1%;
+  // padding: 20px;
+
+  .common-box {
+    margin-bottom: 20px;
+    background-color: #fff;
+
+    .content {
+      margin: 0 20px;
+    }
+  }
+}
+
+
+.comfirm-ico,.reject-icon{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background-size: contain;
+  padding-left: 5px;
+  border: none;
+  outline: none;
+}
+.comfirm-ico{
+  background: url('~@/assets/public/confirm-icon.png') no-repeat center center;
+}
+.reject-icon{
+  background: url('~@/assets/public/reject-icon.png') no-repeat center center;
+}
+
+
+.underline{
+  border-bottom: 1px solid #333;
+}
+
+
+
+.email-input{
+  input{
+    border: 1px solid #f00;
+  }
+}
